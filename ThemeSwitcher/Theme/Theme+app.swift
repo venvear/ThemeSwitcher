@@ -8,6 +8,7 @@
 
 import UIKit
 
+@MainActor
 extension Theme {
     
     @available(iOS 13.0, *)
@@ -26,7 +27,9 @@ extension Theme {
         guard #available(iOS 13.0, *) else { return }
         
         // Устанавливаем активную тему для всех окон приложения
-        UIApplication.shared.windows
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
             .filter { $0 != themeWindow } // не красим это окно чтобы узнавать системную тему
             .forEach { $0.overrideUserInterfaceStyle = userInterfaceStyle }
     }

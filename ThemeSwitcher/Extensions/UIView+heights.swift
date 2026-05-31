@@ -15,5 +15,10 @@ extension UIView {
     static var topSafeAreaHeight: CGFloat { UIDevice.iPhoneX ? 44 : 20 }
     
     static var bottomSafeAreaHeight: CGFloat { UIDevice.iPhoneX ? 34 : 0 }
+
+    func addAutoLayoutSubview(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+    }
     
 }

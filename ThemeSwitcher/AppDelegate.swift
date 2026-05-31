@@ -8,7 +8,7 @@
 
 import UIKit
 
-let themeWindow = ThemeWindow()
+@MainActor let themeWindow = ThemeWindow()
 
 final class ThemeWindow: UIWindow {
     
@@ -24,7 +24,7 @@ final class ThemeWindow: UIWindow {
     }
 }
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     @Persist(key: "authorized", defaultValue: false)

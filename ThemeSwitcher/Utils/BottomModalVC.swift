@@ -30,20 +30,18 @@ class BottomModalVC: UIViewController {
         
         let view = UIView()
         view.backgroundColor = UIColor.Pallete.background
-        view.addSubview(containerView)
-        [line, containerView].forEach(view.addSubview)
+        [line, containerView].forEach { view.addAutoLayoutSubview($0) }
         
-        line.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(9)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(6)
-            $0.width.equalTo(44)
-        }
-        containerView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(containerTopOffset)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(containerHeight)
-        }
+        NSLayoutConstraint.activate([
+            line.topAnchor.constraint(equalTo: view.topAnchor, constant: 9),
+            line.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            line.heightAnchor.constraint(equalToConstant: 6),
+            line.widthAnchor.constraint(equalToConstant: 44),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: containerTopOffset),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: containerHeight)
+        ])
         return view
     }()
     
@@ -73,12 +71,18 @@ class BottomModalVC: UIViewController {
         backdropView.addGestureRecognizer(tapGesture)
 
         view.backgroundColor = .clear
-        [backdropView, bottomContainerView].forEach(view.addSubview)
+        [backdropView, bottomContainerView].forEach { view.addAutoLayoutSubview($0) }
         
-        bottomContainerView.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(containerTotalHeight)
-        }
+        NSLayoutConstraint.activate([
+            backdropView.topAnchor.constraint(equalTo: view.topAnchor),
+            backdropView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backdropView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backdropView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomContainerView.heightAnchor.constraint(equalToConstant: containerTotalHeight)
+        ])
     }
     
     override func viewDidLayoutSubviews() {
@@ -197,4 +201,3 @@ class Interactor: UIPercentDrivenInteractiveTransition {
     var hasStarted = false
     var shouldFinish = false
 }
-

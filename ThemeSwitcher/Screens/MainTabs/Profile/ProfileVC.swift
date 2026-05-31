@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class ProfileVC: UIViewController {
     
@@ -46,32 +45,33 @@ class ProfileVC: UIViewController {
         let bottomSeparator = UIView()
         bottomSeparator.backgroundColor = UIColor.Pallete.gray
         
-        [separator, titleLabel, valueLabel, bottomSeparator].forEach(view.addSubview)
+        [separator, titleLabel, valueLabel, bottomSeparator].forEach { view.addAutoLayoutSubview($0) }
         
-        view.snp.makeConstraints { (make) in
-            make.height.equalTo(48)
-        }
+        view.heightAnchor.constraint(equalToConstant: 48).isActive = true
         
-        separator.snp.makeConstraints { (make) in
-            make.left.right.top.equalToSuperview()
-            make.height.equalTo(1)
-        }
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            separator.topAnchor.constraint(equalTo: view.topAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1)
+        ])
         
-        titleLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(24)
-            make.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
-        valueLabel.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().inset(24)
-            make.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            valueLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            valueLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
-        bottomSeparator.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(24)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(0.5)
-        }
+        NSLayoutConstraint.activate([
+            bottomSeparator.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            bottomSeparator.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            bottomSeparator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomSeparator.heightAnchor.constraint(equalToConstant: 0.5)
+        ])
         
         return view
     }()
@@ -100,35 +100,37 @@ class ProfileVC: UIViewController {
         let separator = UIView()
         separator.backgroundColor = UIColor.Pallete.gray
         
-        [separator, titleLabel, valueLabel].forEach(view.addSubview)
+        [separator, titleLabel, valueLabel].forEach { view.addAutoLayoutSubview($0) }
         
-        view.snp.makeConstraints { (make) in
-            make.height.equalTo(48)
-        }
+        view.heightAnchor.constraint(equalToConstant: 48).isActive = true
         
-        separator.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(1)
-        }
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1)
+        ])
         
-        titleLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(24)
-            make.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
-        valueLabel.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().inset(24)
-            make.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            valueLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            valueLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
         return view
     }()
     
     private lazy var stackView: UIStackView = {
         
-        profileImageView.snp.makeConstraints {
-            $0.width.height.equalTo(80)
-        }
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileImageView.widthAnchor.constraint(equalToConstant: 80),
+            profileImageView.heightAnchor.constraint(equalToConstant: 80)
+        ])
         
         let st = UIStackView(arrangedSubviews: [profileImageView, FixedHeightView(height: 48),
                                                 userNameView, emailView])
@@ -150,20 +152,16 @@ class ProfileVC: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor.Pallete.background
         
-        [stackView].forEach(view.addSubview)
+        view.addAutoLayoutSubview(stackView)
         
-        stackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
-        }
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
+        ])
         
-        userNameView.snp.makeConstraints {
-            $0.width.equalTo(view)
-        }
+        userNameView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
-        emailView.snp.makeConstraints {
-            $0.width.equalTo(view)
-        }
+        emailView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
     }
     

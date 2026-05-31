@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class LoginVC: UIViewController {
     
@@ -25,11 +24,13 @@ class LoginVC: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor.Pallete.background
         
-        view.addSubview(button)
-        button.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.height.equalTo(24)
-        }
+        view.addAutoLayoutSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.widthAnchor.constraint(equalToConstant: 24),
+            button.heightAnchor.constraint(equalToConstant: 24)
+        ])
         
         return view
     }()
@@ -62,9 +63,11 @@ class LoginVC: UIViewController {
     
     private lazy var stackView: UIStackView = {
         
-        loginImageView.snp.makeConstraints {
-            $0.width.height.equalTo(80)
-        }
+        loginImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loginImageView.widthAnchor.constraint(equalToConstant: 80),
+            loginImageView.heightAnchor.constraint(equalToConstant: 80)
+        ])
         
         let st = UIStackView(arrangedSubviews: [loginImageView, FixedHeightView(height: 32),
                                                 loginTextField, FixedHeightView(height: 16),
@@ -95,35 +98,34 @@ class LoginVC: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor.Pallete.background
         
-        [themeButtonView, descriptionLabel, stackView].forEach(view.addSubview)
+        [themeButtonView, descriptionLabel, stackView].forEach { view.addAutoLayoutSubview($0) }
         
-        themeButtonView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.right.equalToSuperview().inset(8)
-            $0.width.height.equalTo(44)
-        }
+        NSLayoutConstraint.activate([
+            themeButtonView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            themeButtonView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            themeButtonView.widthAnchor.constraint(equalToConstant: 44),
+            themeButtonView.heightAnchor.constraint(equalToConstant: 44)
+        ])
         
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(themeButtonView.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview().inset(24)
-        }
+        NSLayoutConstraint.activate([
+            descriptionLabel.topAnchor.constraint(equalTo: themeButtonView.bottomAnchor, constant: 8),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
         
-        loginTextField.snp.makeConstraints {
-            $0.width.equalTo(view).offset(-64)
-        }
+        loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64).isActive = true
         
-        passTextField.snp.makeConstraints {
-            $0.width.equalTo(view).offset(-64)
-        }
+        passTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64).isActive = true
 
-        loginButton.snp.makeConstraints {
-            $0.width.equalTo(view).offset(-64)
-            $0.height.equalTo(44)
-        }
+        NSLayoutConstraint.activate([
+            loginButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64),
+            loginButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
         
-        stackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
     }
     
@@ -132,20 +134,15 @@ class LoginVC: UIViewController {
         
         User.current = User(name: loginTextField.text ?? "")
         
-        let style: UIActivityIndicatorView.Style
-        if #available(iOS 13.0, *) {
-            style = Theme.current.userInterfaceStyle == .dark ? .gray : .white
-        } else {
-            style = .gray
-        }
+        let style: UIActivityIndicatorView.Style = .medium
 
         let aiView = UIActivityIndicatorView(style: style)
         aiView.startAnimating()
-        loginButton.addSubview(aiView)
-        aiView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(16)
-        }
+        loginButton.addAutoLayoutSubview(aiView)
+        NSLayoutConstraint.activate([
+            aiView.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor),
+            aiView.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor, constant: -16)
+        ])
         
         loginButton.isUserInteractionEnabled = false
         

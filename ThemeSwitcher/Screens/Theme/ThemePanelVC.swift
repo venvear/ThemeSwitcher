@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 extension Theme {
     
@@ -49,22 +48,24 @@ class ThemePanelVC: BottomModalVC {
         systemThemelabel.font = .systemFont(ofSize: 13)
         systemThemelabel.numberOfLines = 0
         
-        [label, themeSegmentedControl, systemThemelabel].forEach(view.addSubview)
+        [label, themeSegmentedControl, systemThemelabel].forEach { view.addAutoLayoutSubview($0) }
         
-        label.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(6)
-            $0.centerX.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 6),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
         
-        themeSegmentedControl.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(16)
-            $0.left.right.equalToSuperview().inset(24)
-        }
+        NSLayoutConstraint.activate([
+            themeSegmentedControl.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 16),
+            themeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            themeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
         
-        systemThemelabel.snp.makeConstraints {
-            $0.top.equalTo(themeSegmentedControl.snp.bottom).offset(16)
-            $0.left.right.equalToSuperview().inset(24)
-        }
+        NSLayoutConstraint.activate([
+            systemThemelabel.topAnchor.constraint(equalTo: themeSegmentedControl.bottomAnchor, constant: 16),
+            systemThemelabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            systemThemelabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
         
         return view
     }()

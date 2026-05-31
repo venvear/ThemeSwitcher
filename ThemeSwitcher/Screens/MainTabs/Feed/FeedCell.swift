@@ -55,34 +55,41 @@ class FeedCell: UITableViewCell, Reusable {
         let separator = UIView()
         separator.backgroundColor = UIColor.Pallete.gray
         
-        [avatarImageView, nameLabel, timeLabel, descriptionLabel, separator].forEach(contentView.addSubview)
-        
-        avatarImageView.snp.makeConstraints { (make) in
-            make.left.top.equalToSuperview().inset(12)
-            make.width.height.equalTo(48)
+        [avatarImageView, nameLabel, timeLabel, descriptionLabel, separator].forEach {
+            contentView.addAutoLayoutSubview($0)
         }
         
-        nameLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(12 + 48 + 12)
-            make.top.equalToSuperview().inset(12)
-        }
+        NSLayoutConstraint.activate([
+            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 48),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 48)
+        ])
         
-        timeLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.right).offset(4)
-            make.top.equalToSuperview().inset(12)
-            make.right.lessThanOrEqualToSuperview().inset(12)
-        }
+        NSLayoutConstraint.activate([
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 72),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+        ])
         
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel.snp.left)
-            make.top.equalTo(nameLabel.snp.bottom).offset(8)
-            make.right.bottom.equalToSuperview().inset(12)
-        }
+        NSLayoutConstraint.activate([
+            timeLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4),
+            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            timeLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -12)
+        ])
         
-        separator.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(0.5)
-        }
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 0.5)
+        ])
         
     }
 

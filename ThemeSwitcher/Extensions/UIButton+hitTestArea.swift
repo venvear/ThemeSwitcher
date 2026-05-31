@@ -11,27 +11,29 @@ import UIKit
 extension UIButton {
 
     private struct AssociationKey {
-        static var y = "y"
-        static var x = "x"
+        @MainActor
+        static let y = UnsafeRawPointer(bitPattern: 1)!
+        @MainActor
+        static let x = UnsafeRawPointer(bitPattern: 2)!
     }
 
     public var extendHitTestAreaToMinVertically: Bool {
         get {
-            let y = objc_getAssociatedObject(self, &AssociationKey.y) as? Bool
+            let y = objc_getAssociatedObject(self, AssociationKey.y) as? Bool
             return y ?? false
         }
         set {
-            objc_setAssociatedObject(self, &AssociationKey.y, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AssociationKey.y, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
     public var extendHitTestAreaToMinHorizontally: Bool {
         get {
-            let x = objc_getAssociatedObject(self, &AssociationKey.x) as? Bool
+            let x = objc_getAssociatedObject(self, AssociationKey.x) as? Bool
             return x ?? false
         }
         set {
-            objc_setAssociatedObject(self, &AssociationKey.x, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AssociationKey.x, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

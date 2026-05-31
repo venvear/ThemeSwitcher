@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class iOS13OnlyVC: UIViewController {
     
@@ -30,11 +29,13 @@ class iOS13OnlyVC: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor.Pallete.background
         
-        view.addSubview(descriptionLabel)
+        view.addAutoLayoutSubview(descriptionLabel)
         
-        descriptionLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(24)
-        }
+        NSLayoutConstraint.activate([
+            descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            descriptionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
     }
 }

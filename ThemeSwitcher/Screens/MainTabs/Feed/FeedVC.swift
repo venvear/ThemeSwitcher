@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class FeedVC: UIViewController {
     
@@ -37,11 +36,14 @@ class FeedVC: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor.Pallete.background
         
-        view.addSubview(tableView)
+        view.addAutoLayoutSubview(tableView)
         
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         
         tableView.delegate = self
         tableView.dataSource = self

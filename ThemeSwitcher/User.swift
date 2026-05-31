@@ -15,6 +15,7 @@ struct User {
 }
 
 
+@MainActor
 extension User {
     
     @Persist(key: "user_name", defaultValue: "")

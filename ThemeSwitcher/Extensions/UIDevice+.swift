@@ -44,7 +44,7 @@ public extension UIDevice {
         case .pad: return .iPad
         case .tv: return .tv
         case .carPlay: return .carPlay
-        case .unspecified: return .unknown
+        case .mac, .vision, .unspecified: return .unknown
         @unknown default: return .unknown
         }
     }

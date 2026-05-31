@@ -14,6 +14,7 @@ enum Theme: Int, CaseIterable {
     case dark
 }
 
+@MainActor
 extension Theme {
     
     @Persist(key: "app_theme", defaultValue: Theme.system.rawValue)
