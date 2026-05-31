@@ -23,11 +23,12 @@ extension User {
     
     static var current: User? {
         get {
-            guard !User.name.isEmpty else { return nil }
-            return User(name: User.name)
+            let persistedName = User.name.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !persistedName.isEmpty else { return nil }
+            return User(name: persistedName)
         }
         set {
-            User.name = newValue?.name ?? ""
+            User.name = newValue?.name.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         }
     }
     

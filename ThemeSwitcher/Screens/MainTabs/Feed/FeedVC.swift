@@ -9,22 +9,26 @@
 import UIKit
 
 class FeedVC: UIViewController {
+
+    private enum Section {
+        case main
+    }
+
+    private lazy var dataSource = UITableViewDiffableDataSource<Section, Feed>(tableView: tableView) { tableView, indexPath, feed in
+        let cell: FeedCell = tableView.dequeue(for: indexPath)
+        cell.set(data: feed)
+        return cell
+    }
     
     private let tableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = UIColor.Pallete.white
+        tv.backgroundColor = UIColor.Pallete.appBackground
         tv.estimatedRowHeight = 75
+        tv.rowHeight = UITableView.automaticDimension
         tv.tableFooterView = UIView()
         tv.separatorStyle = .none
         tv.register(FeedCell.self)
         return tv
-    }()
-    
-    private lazy var loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("FeedVC", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        return button
     }()
     
     override func viewDidLoad() {
@@ -34,7 +38,7 @@ class FeedVC: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = UIColor.Pallete.background
+        view.backgroundColor = UIColor.Pallete.appBackground
         
         view.addAutoLayoutSubview(tableView)
         
@@ -46,24 +50,16 @@ class FeedVC: UIViewController {
         ])
         
         tableView.delegate = self
-        tableView.dataSource = self
+        applySnapshot()
     }
-    
+
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Feed>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(Feed.data)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
 }
 
-extension FeedVC: UITableViewDelegate {
-    
-}
-
-extension FeedVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Feed.data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: FeedCell = tableView.dequeue(for: indexPath)
-        let data = Feed.data[indexPath.row]
-        cell.set(data: data)
-        return cell
-    }
-}
+extension FeedVC: UITableViewDelegate {}

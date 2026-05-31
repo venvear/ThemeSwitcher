@@ -9,20 +9,19 @@
 import UIKit
 
 class LoginVC: UIViewController {
-    
-    let interactor = Interactor()
-    
+
     private lazy var themeButtonView: UIView = {
 
         let button = UIButton(type: .system)
         button.setImage(UIImage.app(.theme), for: .normal)
-        button.tintColor = UIColor.Pallete.black
+        button.tintColor = UIColor.Pallete.primaryText
         button.addTarget(self, action: #selector(showThemePanel), for: .touchUpInside)
         button.extendHitTestAreaToMinVertically = true
         button.extendHitTestAreaToMinHorizontally = true
+        button.accessibilityLabel = "Choose app appearance"
         
         let view = UIView()
-        view.backgroundColor = UIColor.Pallete.background
+        view.backgroundColor = UIColor.Pallete.appBackground
         
         view.addAutoLayoutSubview(button)
         NSLayoutConstraint.activate([
@@ -38,8 +37,9 @@ class LoginVC: UIViewController {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "This application is an example of implementing support for a dark theme.\nShown here is switching between system, light and dark themes."
-        label.textColor = UIColor.Pallete.black.withAlphaComponent(0.6)
-        label.font = .systemFont(ofSize: 13)
+        label.textColor = UIColor.Pallete.secondaryText
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         return label
     }()
@@ -50,11 +50,9 @@ class LoginVC: UIViewController {
     
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor.Pallete.black
         button.setTitle("Log in", for: .normal)
-        button.setTitleColor(UIColor.Pallete.white, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        
+        button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
@@ -85,6 +83,8 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        configureFields()
+        updateLoginButtonState()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTap))
         view.addGestureRecognizer(tapGesture)
@@ -96,7 +96,7 @@ class LoginVC: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = UIColor.Pallete.background
+        view.backgroundColor = UIColor.Pallete.appBackground
         
         [themeButtonView, descriptionLabel, stackView].forEach { view.addAutoLayoutSubview($0) }
         
@@ -128,11 +128,47 @@ class LoginVC: UIViewController {
         ])
         
     }
+
+    private func configureFields() {
+        loginTextField.textContentType = .username
+        loginTextField.returnKeyType = .next
+        loginTextField.font = .preferredFont(forTextStyle: .body)
+        loginTextField.adjustsFontForContentSizeCategory = true
+        loginTextField.accessibilityLabel = "Username"
+
+        passTextField.textContentType = .password
+        passTextField.isSecureTextEntry = true
+        passTextField.returnKeyType = .go
+        passTextField.font = .preferredFont(forTextStyle: .body)
+        passTextField.adjustsFontForContentSizeCategory = true
+        passTextField.accessibilityLabel = "Password"
+
+        loginTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        passTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+
+    private func updateLoginButtonState(isLoading: Bool = false) {
+        let canSubmit = !(loginTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        loginButton.isEnabled = canSubmit && !isLoading
+        loginButton.backgroundColor = loginButton.isEnabled ? UIColor.Pallete.primaryText : UIColor.Pallete.separator
+        loginButton.setTitleColor(UIColor.Pallete.inverseText, for: .normal)
+        loginButton.accessibilityHint = canSubmit ? "Opens the main demo" : "Enter a username first"
+    }
+
+    @objc func textFieldDidChange() {
+        updateLoginButtonState()
+    }
     
     @objc func loginTapped() {
         dismissTap()
+
+        let username = (loginTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !username.isEmpty else {
+            updateLoginButtonState()
+            return
+        }
         
-        User.current = User(name: loginTextField.text ?? "")
+        User.current = User(name: username)
         
         let style: UIActivityIndicatorView.Style = .medium
 
@@ -144,9 +180,9 @@ class LoginVC: UIViewController {
             aiView.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor, constant: -16)
         ])
         
-        loginButton.isUserInteractionEnabled = false
+        updateLoginButtonState(isLoading: true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             (UIApplication.shared.delegate as? AppDelegate)?.showMainWindow()
         }
     }

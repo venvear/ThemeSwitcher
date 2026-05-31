@@ -8,7 +8,8 @@
 
 import UIKit
 
-struct Feed {
+struct Feed: Hashable {
+    let id = UUID()
     let image: UIImage.AppImage
     let name: String
     let date: String

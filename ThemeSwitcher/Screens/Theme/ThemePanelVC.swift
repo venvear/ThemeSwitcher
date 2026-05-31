@@ -8,72 +8,100 @@
 
 import UIKit
 
-extension Theme {
-    
-    var name: String {
-        switch self {
-        case .system: return "System*"
-        case .light: return "Light"
-        case .dark: return "Dark"
-        }
+class ThemePanelVC: UIViewController {
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        modalPresentationStyle = .pageSheet
     }
-}
 
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        modalPresentationStyle = .pageSheet
+    }
 
-class ThemePanelVC: BottomModalVC {
-    
-    override var containerView: UIView { rootContainerView }
-    override var containerHeight: CGFloat { 160 }
-    
     private lazy var themeSegmentedControl: UISegmentedControl = {
-        let segmentedView = UISegmentedControl(items: Theme.allCases.map { $0.name })
-        segmentedView.tintColor = UIColor.Pallete.black
+        let segmentedView = UISegmentedControl(items: Theme.allCases.map(\.displayName))
         segmentedView.selectedSegmentIndex = Theme.current.rawValue
+        segmentedView.selectedSegmentTintColor = UIColor.Pallete.primaryText.withAlphaComponent(0.16)
         segmentedView.addTarget(self, action: #selector(selectTheme), for: .valueChanged)
+        segmentedView.accessibilityLabel = "App appearance"
         return segmentedView
     }()
-    
-    lazy var rootContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Pallete.background
-        
+
+    private let selectedLabel: UILabel = {
         let label = UILabel()
-        label.text = "Theme"
-        label.textColor = UIColor.Pallete.black
-        label.font = .systemFont(ofSize: 18, weight: .medium)
-        
-        let systemThemelabel = UILabel()
-        systemThemelabel.text = "* System theme - the app's appearance will change automatically when you enable or disable iOS dark mode."
-        systemThemelabel.textColor = UIColor.Pallete.black.withAlphaComponent(0.6)
-        systemThemelabel.font = .systemFont(ofSize: 13)
-        systemThemelabel.numberOfLines = 0
-        
-        [label, themeSegmentedControl, systemThemelabel].forEach { view.addAutoLayoutSubview($0) }
-        
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 6),
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            themeSegmentedControl.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 16),
-            themeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            themeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
-        ])
-        
-        NSLayoutConstraint.activate([
-            systemThemelabel.topAnchor.constraint(equalTo: themeSegmentedControl.bottomAnchor, constant: 16),
-            systemThemelabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            systemThemelabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
-        ])
-        
-        return view
+        label.textColor = UIColor.Pallete.primaryText
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
     }()
-    
+
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "System follows the current iOS appearance. Light and Dark keep the app fixed until you change it again."
+        label.textColor = UIColor.Pallete.secondaryText
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupSheet()
+        setupViews()
+        updateSelectedThemeLabel()
+    }
+
+    private func setupSheet() {
+        guard let sheetPresentationController else { return }
+
+        sheetPresentationController.detents = [.medium()]
+        sheetPresentationController.prefersGrabberVisible = true
+        sheetPresentationController.preferredCornerRadius = 16
+    }
+
+    private func setupViews() {
+        view.backgroundColor = UIColor.Pallete.appBackground
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Appearance"
+        titleLabel.textColor = UIColor.Pallete.primaryText
+        titleLabel.font = .preferredFont(forTextStyle: .title3)
+        titleLabel.adjustsFontForContentSizeCategory = true
+
+        let stackView = UIStackView(arrangedSubviews: [
+            titleLabel,
+            themeSegmentedControl,
+            selectedLabel,
+            descriptionLabel
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.setCustomSpacing(24, after: titleLabel)
+
+        view.addAutoLayoutSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+    }
+
+    private func updateSelectedThemeLabel() {
+        let theme = Theme.current
+        selectedLabel.text = "Selected: \(theme.displayName)"
+        themeSegmentedControl.accessibilityValue = theme.displayName
+        themeSegmentedControl.accessibilityHint = "Swipe up or down to choose System, Light, or Dark."
+    }
+
     @objc func selectTheme() {
         guard let theme = Theme(rawValue: themeSegmentedControl.selectedSegmentIndex) else { return }
-        
+
         theme.setActive()
+        updateSelectedThemeLabel()
     }
-    
 }

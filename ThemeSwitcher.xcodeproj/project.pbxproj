@@ -18,6 +18,8 @@
 		2F50593C2412D6B2000366AA /* MainTabsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50593B2412D6B2000366AA /* MainTabsVC.swift */; };
 		2F50593E2412DC0D000366AA /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50593D2412DC0D000366AA /* FeedVC.swift */; };
 		2F5059452412DC4B000366AA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5059442412DC4B000366AA /* ProfileVC.swift */; };
+		AA0000100000000000000010 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000E000000000000000E /* ThemeManager.swift */; };
+		AA0000110000000000000011 /* ThemeDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000F000000000000000F /* ThemeDemoVC.swift */; };
 		2F50594B2412F390000366AA /* UIImage+app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594A2412F390000366AA /* UIImage+app.swift */; };
 		2F50594E2412F543000366AA /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594D2412F543000366AA /* UIColor+.swift */; };
 		2F5059502412F58C000366AA /* UIColor+Pallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594F2412F58C000366AA /* UIColor+Pallete.swift */; };
@@ -26,7 +28,6 @@
 		2F5059562412FF3A000366AA /* UIButton+hitTestArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5059552412FF3A000366AA /* UIButton+hitTestArea.swift */; };
 		2F50595824130217000366AA /* FixedHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50595724130217000366AA /* FixedHeightView.swift */; };
 		2F50595B241306E9000366AA /* TextFieldPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50595A241306E9000366AA /* TextFieldPadding.swift */; };
-		2F50595F24130CD6000366AA /* BottomModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50595E24130CD6000366AA /* BottomModalVC.swift */; };
 		2F50596124131AED000366AA /* UIView+heights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50596024131AED000366AA /* UIView+heights.swift */; };
 		2F50596324131B18000366AA /* UIDevice+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50596224131B18000366AA /* UIDevice+.swift */; };
 		2F50596524131CF3000366AA /* UIView+roundCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50596424131CF3000366AA /* UIView+roundCorners.swift */; };
@@ -62,6 +63,8 @@
 		2F50593B2412D6B2000366AA /* MainTabsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabsVC.swift; sourceTree = "<group>"; };
 		2F50593D2412DC0D000366AA /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		2F5059442412DC4B000366AA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		AA00000E000000000000000E /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		AA00000F000000000000000F /* ThemeDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeDemoVC.swift; sourceTree = "<group>"; };
 		2F50594A2412F390000366AA /* UIImage+app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+app.swift"; sourceTree = "<group>"; };
 		2F50594D2412F543000366AA /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		2F50594F2412F58C000366AA /* UIColor+Pallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Pallete.swift"; sourceTree = "<group>"; };
@@ -70,7 +73,6 @@
 		2F5059552412FF3A000366AA /* UIButton+hitTestArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+hitTestArea.swift"; sourceTree = "<group>"; };
 		2F50595724130217000366AA /* FixedHeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedHeightView.swift; sourceTree = "<group>"; };
 		2F50595A241306E9000366AA /* TextFieldPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldPadding.swift; sourceTree = "<group>"; };
-		2F50595E24130CD6000366AA /* BottomModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomModalVC.swift; sourceTree = "<group>"; };
 		2F50596024131AED000366AA /* UIView+heights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+heights.swift"; sourceTree = "<group>"; };
 		2F50596224131B18000366AA /* UIDevice+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+.swift"; sourceTree = "<group>"; };
 		2F50596424131CF3000366AA /* UIView+roundCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+roundCorners.swift"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				2F50592F2412D037000366AA /* Theme.swift */,
+				AA00000E000000000000000E /* ThemeManager.swift */,
 				2F5059372412D256000366AA /* Theme+app.swift */,
 				2F3A867F241EBEC800F8C3E5 /* UIWindow+theme.swift */,
 			);
@@ -160,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				2F5059322412D0AF000366AA /* Persist.swift */,
-				2F50595E24130CD6000366AA /* BottomModalVC.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -181,6 +183,7 @@
 			children = (
 				2F50593B2412D6B2000366AA /* MainTabsVC.swift */,
 				2F505969241330AB000366AA /* Feed */,
+				AA0000120000000000000012 /* Demo */,
 				2F50596B241330B9000366AA /* Profile */,
 			);
 			path = MainTabs;
@@ -241,6 +244,14 @@
 				2F50593D2412DC0D000366AA /* FeedVC.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		AA0000120000000000000012 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				AA00000F000000000000000F /* ThemeDemoVC.swift */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 		2F50596B241330B9000366AA /* Profile */ = {
@@ -353,13 +364,13 @@
 			files = (
 				2F5059332412D0B0000366AA /* Persist.swift in Sources */,
 				2F5059712413A1CE000366AA /* Feed.swift in Sources */,
-				2F50595F24130CD6000366AA /* BottomModalVC.swift in Sources */,
 				2F50596524131CF3000366AA /* UIView+roundCorners.swift in Sources */,
 				2F5059522412F5DB000366AA /* UIImage+.swift in Sources */,
 				2F50596D24139FDA000366AA /* UITableView+Reusable.swift in Sources */,
 				2F5059502412F58C000366AA /* UIColor+Pallete.swift in Sources */,
 				2F5059772413B372000366AA /* User.swift in Sources */,
 				2F50593E2412DC0D000366AA /* FeedVC.swift in Sources */,
+				AA0000110000000000000011 /* ThemeDemoVC.swift in Sources */,
 				2F3A8680241EBEC800F8C3E5 /* UIWindow+theme.swift in Sources */,
 				2F50591A2412CE78000366AA /* AppDelegate.swift in Sources */,
 				2F5059452412DC4B000366AA /* ProfileVC.swift in Sources */,
@@ -370,6 +381,7 @@
 				2F5059352412D1AD000366AA /* LoginVC.swift in Sources */,
 				2F50596824132E64000366AA /* iOS13OnlyVC.swift in Sources */,
 				2F5059382412D256000366AA /* Theme+app.swift in Sources */,
+				AA0000100000000000000010 /* ThemeManager.swift in Sources */,
 				2F5059302412D037000366AA /* Theme.swift in Sources */,
 				2F5059542412F664000366AA /* ThemePanelVC.swift in Sources */,
 				2F50594B2412F390000366AA /* UIImage+app.swift in Sources */,

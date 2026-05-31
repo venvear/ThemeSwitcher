@@ -16,16 +16,26 @@ enum Theme: Int, CaseIterable {
 
 @MainActor
 extension Theme {
-    
+
     @Persist(key: "app_theme", defaultValue: Theme.system.rawValue)
     private static var appTheme: Int
-    
-    // Сохранение темы в UserDefaults
+
+    var displayName: String {
+        switch self {
+        case .system: return "System"
+        case .light: return "Light"
+        case .dark: return "Dark"
+        }
+    }
+
+    var accessibilityLabel: String {
+        "\(displayName) appearance"
+    }
+
     func save() {
         Theme.appTheme = self.rawValue
     }
-    
-    // Текущая тема приложения
+
     static var current: Theme {
         Theme(rawValue: appTheme) ?? .system
     }

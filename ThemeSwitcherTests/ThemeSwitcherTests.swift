@@ -7,6 +7,7 @@
 
 import Foundation
 import Testing
+import UIKit
 @testable import ThemeSwitcher
 
 @MainActor
@@ -21,11 +22,18 @@ struct ThemeSwitcherTests {
         #expect(Theme.allCases == [.system, .light, .dark])
     }
 
-    @Test("Theme names match the selector labels")
-    func themeNamesMatchSelectorLabels() {
-        #expect(Theme.system.name == "System*")
-        #expect(Theme.light.name == "Light")
-        #expect(Theme.dark.name == "Dark")
+    @Test("Theme display names match the selector labels")
+    func themeDisplayNamesMatchSelectorLabels() {
+        #expect(Theme.system.displayName == "System")
+        #expect(Theme.light.displayName == "Light")
+        #expect(Theme.dark.displayName == "Dark")
+    }
+
+    @Test("Theme accessibility labels are readable")
+    func themeAccessibilityLabelsAreReadable() {
+        #expect(Theme.system.accessibilityLabel == "System appearance")
+        #expect(Theme.light.accessibilityLabel == "Light appearance")
+        #expect(Theme.dark.accessibilityLabel == "Dark appearance")
     }
 
     @Test("Theme selection is persisted")
@@ -39,13 +47,43 @@ struct ThemeSwitcherTests {
         }
     }
 
+    @Test("ThemeManager maps themes to UIKit styles")
+    func themeManagerMapsThemesToUIKitStyles() {
+        let manager = ThemeManager.shared
+
+        #expect(manager.userInterfaceStyle(for: .system) == .unspecified)
+        #expect(manager.userInterfaceStyle(for: .light) == .light)
+        #expect(manager.userInterfaceStyle(for: .dark) == .dark)
+    }
+
+    @Test("ThemeManager applies the current theme to supplied windows")
+    func themeManagerAppliesCurrentThemeToSuppliedWindows() {
+        preservingUserDefault("app_theme") {
+            let window = UIWindow()
+
+            Theme.dark.save()
+            ThemeManager.shared.applyCurrentTheme(to: [window])
+            #expect(window.overrideUserInterfaceStyle == .dark)
+
+            Theme.system.save()
+            ThemeManager.shared.applyCurrentTheme(to: [window])
+            #expect(window.overrideUserInterfaceStyle == .unspecified)
+        }
+    }
+
     @Test("Current user reads and writes the persisted name")
     func currentUserReadsAndWritesPersistedName() throws {
         try preservingUserDefault("user_name") {
             User.current = nil
             #expect(User.current == nil)
 
-            User.current = User(name: "andrey")
+            User.current = User(name: "")
+            #expect(User.current == nil)
+
+            User.current = User(name: "   ")
+            #expect(User.current == nil)
+
+            User.current = User(name: " andrey ")
             let currentUser = try #require(User.current)
 
             #expect(currentUser.name == "andrey")

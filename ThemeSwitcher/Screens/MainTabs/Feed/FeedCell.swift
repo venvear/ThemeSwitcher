@@ -12,35 +12,39 @@ class FeedCell: UITableViewCell, Reusable {
     
     private let avatarImageView: UIImageView = {
         let label = UIImageView()
-        label.backgroundColor = UIColor.Pallete.background
+        label.backgroundColor = UIColor.Pallete.appBackground
         label.layer.cornerRadius = 24
-        label.layer.borderColor = UIColor.Pallete.gray.cgColor
+        label.layer.borderColor = UIColor.Pallete.separator.cgColor
         label.layer.borderWidth = 1
         label.layer.masksToBounds = true
+        label.isAccessibilityElement = false
         return label
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "asdasda"
-        label.textColor = UIColor.Pallete.black
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = UIColor.Pallete.primaryText
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.text = "asdasda"
-        label.textColor = UIColor.Pallete.gray
-        label.font = .systemFont(ofSize: 15)
+        label.textColor = UIColor.Pallete.secondaryText
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "asdasda"
-        label.textColor = UIColor.Pallete.black.withAlphaComponent(0.8)
-        label.font = .systemFont(ofSize: 15)
+        label.textColor = UIColor.Pallete.secondaryText
+        label.font = .preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         return label
     }()
@@ -50,10 +54,13 @@ class FeedCell: UITableViewCell, Reusable {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.Pallete.background
+        contentView.backgroundColor = UIColor.Pallete.appBackground
+        backgroundColor = UIColor.Pallete.appBackground
+        isAccessibilityElement = true
+        accessibilityTraits = .staticText
         
         let separator = UIView()
-        separator.backgroundColor = UIColor.Pallete.gray
+        separator.backgroundColor = UIColor.Pallete.separator
         
         [avatarImageView, nameLabel, timeLabel, descriptionLabel, separator].forEach {
             contentView.addAutoLayoutSubview($0)
@@ -98,6 +105,6 @@ class FeedCell: UITableViewCell, Reusable {
         nameLabel.text = feed.name
         timeLabel.text = "• \(feed.date)"
         descriptionLabel.text = feed.text
-        
+        accessibilityLabel = "\(feed.name), \(feed.date), \(feed.text)"
     }
 }

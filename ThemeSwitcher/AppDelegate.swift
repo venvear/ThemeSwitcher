@@ -8,22 +8,6 @@
 
 import UIKit
 
-@MainActor let themeWindow = ThemeWindow()
-
-final class ThemeWindow: UIWindow {
-    
-    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-
-        // Если текущая тема системная и поменяли оформление в iOS, опять меняем тему на системную.
-        // Например: Пользователь поменял светлое оформление на темное.
-        if Theme.current == .system {
-            DispatchQueue.main.async {
-                Theme.system.setActive()
-            }
-        }
-    }
-}
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -35,18 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var mainWindow = UIWindow()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        // Добавляем окно к приложению, но не показываем его
-        // Необходимо вызывать до установки главного окна приложения
-        themeWindow.makeKey()
-        
-        guard #available(iOS 13.0, *) else {
-            iOS13OnlyWindow.rootViewController = iOS13OnlyVC()
-            iOS13OnlyWindow.makeKeyAndVisible()
-            return true
-        }
-        
-        if isAuthorized {
+        if isAuthorized, User.current != nil {
             showMainWindow()
         } else {
             showLoginScreen()
@@ -57,17 +30,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func showLoginScreen() {
         isAuthorized = false
-        
+
         loginWindow.rootViewController = LoginVC()
         loginWindow.initTheme()
         loginWindow.makeKeyAndVisible()
+        mainWindow.isHidden = true
     }
 
     func showMainWindow() {
         isAuthorized = true
-        
+
         mainWindow.rootViewController = MainTabsVC()
         mainWindow.initTheme()
         mainWindow.makeKeyAndVisible()
+        loginWindow.isHidden = true
     }
 }

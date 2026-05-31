@@ -16,9 +16,11 @@ class TextFieldPadding : UITextField {
         self.padding = padding
         super.init(frame: .zero)
         
-        layer.borderColor = UIColor.Pallete.black.withAlphaComponent(0.5).cgColor
+        layer.borderColor = UIColor.Pallete.separator.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 8
+        textColor = UIColor.Pallete.primaryText
+        backgroundColor = UIColor.Pallete.appBackground
         
         self.placeholder = placeholder
     }
@@ -43,7 +45,9 @@ class TextFieldPadding : UITextField {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        layer.borderColor = UIColor.Pallete.black.withAlphaComponent(0.5).cgColor
+        layer.borderColor = UIColor.Pallete.separator.cgColor
+        textColor = UIColor.Pallete.primaryText
+        backgroundColor = UIColor.Pallete.appBackground
         
     }
 }

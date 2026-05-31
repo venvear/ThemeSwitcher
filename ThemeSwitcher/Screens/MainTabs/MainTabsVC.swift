@@ -24,7 +24,7 @@ class MainTabsVC: UITabBarController {
     }
     
     private func updateColors() {
-        tabBar.tintColor = UIColor.Pallete.black
+        tabBar.tintColor = UIColor.Pallete.primaryText
         tabBar.backgroundImage = UIImage.by(color: UIColor.Pallete.secondaryBackground)
         view.backgroundColor = UIColor.Pallete.secondaryBackground
     }
@@ -37,16 +37,18 @@ class MainTabsVC: UITabBarController {
             vc.navigationItem.title = title
             
             let buttonItem = UIBarButtonItem(image: UIImage.app(.theme), style: .plain, target: self, action: #selector(showThemePanel))
-            buttonItem.tintColor = UIColor.Pallete.black
+            buttonItem.tintColor = UIColor.Pallete.primaryText
+            buttonItem.accessibilityLabel = "Choose app appearance"
             vc.navigationItem.rightBarButtonItem = buttonItem
             
             return nc
         }
         
         let feedTab = createTab(FeedVC(), "Feed", UIImage.app(.feed))
+        let demoTab = createTab(ThemeDemoVC(), "Demo", UIImage(systemName: "circle.lefthalf.filled"))
         let profileTab = createTab(ProfileVC(), "Profile", UIImage.app(.profile))
 
-        setViewControllers([feedTab, profileTab], animated: false)
+        setViewControllers([feedTab, demoTab, profileTab], animated: false)
     }
     
     @objc func showThemePanel() {
