@@ -20,6 +20,8 @@
 		2F5059452412DC4B000366AA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5059442412DC4B000366AA /* ProfileVC.swift */; };
 		AA0000100000000000000010 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000E000000000000000E /* ThemeManager.swift */; };
 		AA0000110000000000000011 /* ThemeDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000F000000000000000F /* ThemeDemoVC.swift */; };
+		AA0000140000000000000014 /* SwiftUIExampleHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000130000000000000013 /* SwiftUIExampleHostingController.swift */; };
+		AA0000160000000000000016 /* SwiftUIExampleRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000150000000000000015 /* SwiftUIExampleRootView.swift */; };
 		2F50594B2412F390000366AA /* UIImage+app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594A2412F390000366AA /* UIImage+app.swift */; };
 		2F50594E2412F543000366AA /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594D2412F543000366AA /* UIColor+.swift */; };
 		2F5059502412F58C000366AA /* UIColor+Pallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F50594F2412F58C000366AA /* UIColor+Pallete.swift */; };
@@ -65,6 +67,8 @@
 		2F5059442412DC4B000366AA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		AA00000E000000000000000E /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		AA00000F000000000000000F /* ThemeDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeDemoVC.swift; sourceTree = "<group>"; };
+		AA0000130000000000000013 /* SwiftUIExampleHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExampleHostingController.swift; sourceTree = "<group>"; };
+		AA0000150000000000000015 /* SwiftUIExampleRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExampleRootView.swift; sourceTree = "<group>"; };
 		2F50594A2412F390000366AA /* UIImage+app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+app.swift"; sourceTree = "<group>"; };
 		2F50594D2412F543000366AA /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		2F50594F2412F58C000366AA /* UIColor+Pallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Pallete.swift"; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				2F5059432412DC36000366AA /* Theme */,
 				2F5059422412DC2F000366AA /* Login */,
 				2F5059412412DC1F000366AA /* MainTabs */,
+				AA0000170000000000000017 /* SwiftUIExample */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -262,6 +267,15 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		AA0000170000000000000017 /* SwiftUIExample */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000130000000000000013 /* SwiftUIExampleHostingController.swift */,
+				AA0000150000000000000015 /* SwiftUIExampleRootView.swift */,
+			);
+			path = SwiftUIExample;
+			sourceTree = "<group>";
+		};
 		AA0000040000000000000004 /* ThemeSwitcherTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +390,7 @@
 				2F5059452412DC4B000366AA /* ProfileVC.swift in Sources */,
 				2F50595B241306E9000366AA /* TextFieldPadding.swift in Sources */,
 				2F50594E2412F543000366AA /* UIColor+.swift in Sources */,
+				AA0000160000000000000016 /* SwiftUIExampleRootView.swift in Sources */,
 				2F5059562412FF3A000366AA /* UIButton+hitTestArea.swift in Sources */,
 				2F50596124131AED000366AA /* UIView+heights.swift in Sources */,
 				2F5059352412D1AD000366AA /* LoginVC.swift in Sources */,
@@ -385,6 +400,7 @@
 				2F5059302412D037000366AA /* Theme.swift in Sources */,
 				2F5059542412F664000366AA /* ThemePanelVC.swift in Sources */,
 				2F50594B2412F390000366AA /* UIImage+app.swift in Sources */,
+				AA0000140000000000000014 /* SwiftUIExampleHostingController.swift in Sources */,
 				2F50596F2413A01F000366AA /* FeedCell.swift in Sources */,
 				2F50595824130217000366AA /* FixedHeightView.swift in Sources */,
 				2F50596324131B18000366AA /* UIDevice+.swift in Sources */,

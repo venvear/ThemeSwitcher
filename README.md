@@ -1,8 +1,8 @@
 # ThemeSwitcher
 
-ThemeSwitcher is a small UIKit sample app that demonstrates how to add `System`, `Light`, and `Dark` appearance modes to an iOS app.
+ThemeSwitcher is a small iOS sample app that demonstrates how to add `System`, `Light`, and `Dark` appearance modes with both UIKit and SwiftUI examples.
 
-The project was originally created as a companion repository for a Habr article about adding Dark Mode support in iOS. It now keeps the same lightweight UIKit shape while using iOS 15 APIs, semantic colors, Dynamic Type, accessibility labels, and a small `ThemeManager`.
+The project was originally created as a companion repository for a Habr article about adding Dark Mode support in iOS. It now keeps the original flow as a UIKit example and adds a SwiftUI variant hosted inside the same app. UIKit remains the base, while shared theme state is reused from SwiftUI through a small `ThemeManager`.
 
 <img src="https://github.com/venvear/ThemeSwitcher/blob/master/images/app.GIF?raw=true" alt="ThemeSwitcher demo" width="300"/>
 
@@ -15,6 +15,7 @@ The original write-up is available on Habr:
 ## What This Project Shows
 
 - Switching between `System`, `Light`, and `Dark` themes inside the app.
+- Comparing the current UIKit implementation with a SwiftUI implementation in a dedicated tab.
 - Persisting the selected theme with `UserDefaults`.
 - Applying the active theme to app windows through `overrideUserInterfaceStyle`.
 - Using `.unspecified` for `System` so UIKit follows the current iOS appearance automatically.
@@ -31,6 +32,7 @@ Theme state lives in `ThemeSwitcher/Theme`.
 ```mermaid
 flowchart LR
     User["User selects theme"] --> Panel["ThemePanelVC"]
+    SwiftUI["SwiftUI Picker"] --> API
     Panel --> API["Theme.setActive()"]
     API --> Manager["ThemeManager.apply(_:)"]
     Manager --> Defaults["Persist app_theme raw value"]
@@ -45,17 +47,20 @@ flowchart LR
 - `light = 1`
 - `dark = 2`
 
-`Theme.displayName` is the user-facing label used by the picker. `ThemeManager` owns the UIKit application step: it saves the chosen value and applies the matching `UIUserInterfaceStyle` to app windows. For `System`, it applies `.unspecified`, which means the app follows iOS Light or Dark Mode without a helper window.
+`Theme.displayName` is the user-facing label used by the UIKit sheet and the SwiftUI menu picker. `ThemeManager` owns the application step: it saves the chosen value and applies the matching `UIUserInterfaceStyle` to app windows. For `System`, it applies `.unspecified`, which means the app follows iOS Light or Dark Mode without a helper window.
+
+The UIKit example uses `ThemePanelVC` with `UISheetPresentationController`. The SwiftUI example is embedded through `SwiftUIExampleHostingController` and calls the same public API, so both variants share persisted state and window-level appearance.
 
 ## Key Files
 
 - `ThemeSwitcher/Theme/Theme.swift` - theme enum, raw values, labels, and persistence.
 - `ThemeSwitcher/Theme/ThemeManager.swift` - window-level theme application.
 - `ThemeSwitcher/Screens/Theme/ThemePanelVC.swift` - iOS 15 sheet-based theme selector.
-- `ThemeSwitcher/Screens/MainTabs/Demo/ThemeDemoVC.swift` - palette, semantic colors, adaptive image, and component examples.
-- `ThemeSwitcher/Screens/MainTabs/Feed` - diffable feed table and accessible cells.
-- `ThemeSwitcher/Screens/Login/LoginVC.swift` - login validation and theme entry point.
-- `ThemeSwitcher/Screens/MainTabs/Profile/ProfileVC.swift` - profile details and logout.
+- `ThemeSwitcher/Screens/MainTabs/Demo/ThemeDemoVC.swift` - UIKit palette, semantic colors, adaptive image, and component examples.
+- `ThemeSwitcher/Screens/MainTabs/Feed` - UIKit diffable feed table and accessible cells.
+- `ThemeSwitcher/Screens/Login/LoginVC.swift` - UIKit login validation and theme entry point.
+- `ThemeSwitcher/Screens/MainTabs/Profile/ProfileVC.swift` - UIKit profile details and logout.
+- `ThemeSwitcher/Screens/SwiftUIExample` - SwiftUI feed, demo, profile, and hosting controller.
 - `ThemeSwitcher/Resources/Assets.xcassets/Colors` - semantic color sets such as `appBackground`, `primaryText`, `secondaryText`, and `separator`.
 - `ThemeSwitcherTests/ThemeSwitcherTests.swift` - persistence, raw value, label, user, and `ThemeManager` tests.
 
@@ -82,6 +87,7 @@ Original article screenshots are still kept in `images/`:
 3. Call `window.initTheme()` before showing a new app window.
 4. Present your own picker and call `theme.setActive()` when the user chooses a mode.
 5. Prefer Asset Catalog color sets for app semantic colors, then use those colors throughout UIKit views.
+6. In SwiftUI, bind a `Picker` to `Theme`, call `theme.setActive()` on changes, and wrap UIKit colors with `Color(UIColor.Pallete.primaryText)` or your own semantic assets.
 
 ## Requirements
 

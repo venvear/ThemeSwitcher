@@ -31,24 +31,32 @@ class MainTabsVC: UITabBarController {
     
     private func setTabs() {
         
-        func createTab(_ vc: UIViewController, _ title: String, _ image: UIImage?) -> UINavigationController {
+        func createTab(
+            _ vc: UIViewController,
+            _ title: String,
+            _ image: UIImage?,
+            showsThemeButton: Bool = true
+        ) -> UINavigationController {
             let nc = MainNC(rootViewController: vc)
             nc.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: image)
             vc.navigationItem.title = title
             
-            let buttonItem = UIBarButtonItem(image: UIImage.app(.theme), style: .plain, target: self, action: #selector(showThemePanel))
-            buttonItem.tintColor = UIColor.Pallete.primaryText
-            buttonItem.accessibilityLabel = "Choose app appearance"
-            vc.navigationItem.rightBarButtonItem = buttonItem
+            if showsThemeButton {
+                let buttonItem = UIBarButtonItem(image: UIImage.app(.theme), style: .plain, target: self, action: #selector(showThemePanel))
+                buttonItem.tintColor = UIColor.Pallete.primaryText
+                buttonItem.accessibilityLabel = "Choose app appearance"
+                vc.navigationItem.rightBarButtonItem = buttonItem
+            }
             
             return nc
         }
         
-        let feedTab = createTab(FeedVC(), "Feed", UIImage.app(.feed))
-        let demoTab = createTab(ThemeDemoVC(), "Demo", UIImage(systemName: "circle.lefthalf.filled"))
-        let profileTab = createTab(ProfileVC(), "Profile", UIImage.app(.profile))
+        let feedTab = createTab(FeedVC(), "UIKit Feed", UIImage.app(.feed))
+        let demoTab = createTab(ThemeDemoVC(), "UIKit Demo", UIImage(systemName: "circle.lefthalf.filled"))
+        let swiftUITab = createTab(SwiftUIExampleHostingController(), "SwiftUI", UIImage(systemName: "curlybraces"), showsThemeButton: false)
+        let profileTab = createTab(ProfileVC(), "UIKit Profile", UIImage.app(.profile))
 
-        setViewControllers([feedTab, demoTab, profileTab], animated: false)
+        setViewControllers([feedTab, demoTab, swiftUITab, profileTab], animated: false)
     }
     
     @objc func showThemePanel() {

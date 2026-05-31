@@ -36,7 +36,7 @@ class LoginVC: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "This application is an example of implementing support for a dark theme.\nShown here is switching between system, light and dark themes."
+        label.text = "UIKit example\nThis screen demonstrates switching between system, light and dark themes."
         label.textColor = UIColor.Pallete.secondaryText
         label.font = .preferredFont(forTextStyle: .footnote)
         label.adjustsFontForContentSizeCategory = true
