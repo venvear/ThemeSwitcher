@@ -35,6 +35,7 @@ class ThemePanelVC: UIViewController {
         label.font = .preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
+        label.accessibilityTraits = .header
         return label
     }()
 
@@ -94,8 +95,9 @@ class ThemePanelVC: UIViewController {
     private func updateSelectedThemeLabel() {
         let theme = Theme.current
         selectedLabel.text = "Selected: \(theme.displayName)"
+        descriptionLabel.text = theme.detailText
         themeSegmentedControl.accessibilityValue = theme.displayName
-        themeSegmentedControl.accessibilityHint = "Swipe up or down to choose System, Light, or Dark."
+        themeSegmentedControl.accessibilityHint = theme.detailText
     }
 
     @objc func selectTheme() {
@@ -103,5 +105,6 @@ class ThemePanelVC: UIViewController {
 
         theme.setActive()
         updateSelectedThemeLabel()
+        UIAccessibility.post(notification: .announcement, argument: "\(theme.displayName) appearance selected")
     }
 }

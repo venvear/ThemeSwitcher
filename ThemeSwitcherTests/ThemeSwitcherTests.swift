@@ -36,6 +36,27 @@ struct ThemeSwitcherTests {
         #expect(Theme.dark.accessibilityLabel == "Dark appearance")
     }
 
+    @Test("Theme detail text explains each mode")
+    func themeDetailTextExplainsEachMode() {
+        #expect(Theme.system.detailText == "Follows the current iOS appearance and updates when the device changes.")
+        #expect(Theme.light.detailText == "Keeps the app in light appearance until another mode is selected.")
+        #expect(Theme.dark.detailText == "Keeps the app in dark appearance until another mode is selected.")
+    }
+
+    @Test("Theme audit checklist covers reusable implementation points")
+    func themeAuditChecklistCoversReusableImplementationPoints() {
+        let items = ThemeAuditItem.defaultItems
+
+        #expect(items.map(\.title) == [
+            "Use semantic color tokens",
+            "Cover every appearance mode",
+            "Keep assets adaptive",
+            "Respect accessibility settings"
+        ])
+        #expect(items.allSatisfy { !$0.detail.isEmpty })
+        #expect(items.allSatisfy { $0.accessibilityLabel.contains($0.title) })
+    }
+
     @Test("Theme selection is persisted")
     func themeSelectionIsPersisted() {
         preservingUserDefault("app_theme") {

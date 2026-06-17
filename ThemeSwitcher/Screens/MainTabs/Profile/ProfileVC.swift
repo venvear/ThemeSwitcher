@@ -55,9 +55,8 @@ class ProfileVC: UIViewController {
         
         [separator, titleLabel, valueLabel, bottomSeparator].forEach { view.addAutoLayoutSubview($0) }
         
-        view.heightAnchor.constraint(greaterThanOrEqualToConstant: 56).isActive = true
-        
         NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             separator.topAnchor.constraint(equalTo: view.topAnchor),
@@ -122,9 +121,8 @@ class ProfileVC: UIViewController {
         
         [separator, titleLabel, valueLabel].forEach { view.addAutoLayoutSubview($0) }
         
-        view.heightAnchor.constraint(greaterThanOrEqualToConstant: 56).isActive = true
-        
         NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             separator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -184,9 +182,10 @@ class ProfileVC: UIViewController {
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
         ])
         
-        userNameView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        
-        emailView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            userNameView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            emailView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
         
     }
     

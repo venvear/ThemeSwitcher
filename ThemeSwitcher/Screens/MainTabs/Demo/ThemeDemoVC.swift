@@ -30,7 +30,7 @@ class ThemeDemoVC: UIViewController {
 
         contentStackView.axis = .vertical
         contentStackView.spacing = 24
-        contentStackView.layoutMargins = UIEdgeInsets(top: 24, left: 20, bottom: 32, right: 20)
+        contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 24, leading: 20, bottom: 32, trailing: 20)
         contentStackView.isLayoutMarginsRelativeArrangement = true
 
         view.addAutoLayoutSubview(scrollView)
@@ -62,6 +62,7 @@ class ThemeDemoVC: UIViewController {
             ColorSample(title: "secondaryLabel", color: .secondaryLabel),
             ColorSample(title: "systemBlue", color: .systemBlue)
         ]))
+        contentStackView.addArrangedSubview(makeAuditChecklistSection())
         contentStackView.addArrangedSubview(makeAdaptiveImageSection())
         contentStackView.addArrangedSubview(makeComponentSection())
     }
@@ -110,6 +111,30 @@ class ThemeDemoVC: UIViewController {
         }
 
         let stackView = UIStackView(arrangedSubviews: [titleLabel, gridStackView])
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        return stackView
+    }
+
+    private func makeAuditChecklistSection() -> UIView {
+        let titleLabel = makeSectionTitle("Theme audit checklist")
+
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = "Reusable checks to run when adding this theme switcher to another screen."
+        subtitleLabel.textColor = UIColor.Pallete.secondaryText
+        subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.numberOfLines = 0
+
+        let itemsStackView = UIStackView()
+        itemsStackView.axis = .vertical
+        itemsStackView.spacing = 10
+
+        ThemeAuditItem.defaultItems.forEach {
+            itemsStackView.addArrangedSubview(ThemeAuditChecklistRow(item: $0))
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel, itemsStackView])
         stackView.axis = .vertical
         stackView.spacing = 12
         return stackView
@@ -223,6 +248,63 @@ private final class ColorSampleView: UIView {
 
         isAccessibilityElement = true
         accessibilityLabel = sample.title
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+}
+
+private final class ThemeAuditChecklistRow: UIView {
+
+    init(item: ThemeAuditItem) {
+        super.init(frame: .zero)
+
+        backgroundColor = UIColor.Pallete.secondaryBackground
+        layer.cornerRadius = 8
+
+        let iconImageView = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
+        iconImageView.tintColor = UIColor.Pallete.primaryText
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.setContentHuggingPriority(.required, for: .horizontal)
+        iconImageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        iconImageView.isAccessibilityElement = false
+
+        let titleLabel = UILabel()
+        titleLabel.text = item.title
+        titleLabel.textColor = UIColor.Pallete.primaryText
+        titleLabel.font = .preferredFont(forTextStyle: .subheadline)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
+
+        let detailLabel = UILabel()
+        detailLabel.text = item.detail
+        detailLabel.textColor = UIColor.Pallete.secondaryText
+        detailLabel.font = .preferredFont(forTextStyle: .footnote)
+        detailLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.numberOfLines = 0
+
+        let textStackView = UIStackView(arrangedSubviews: [titleLabel, detailLabel])
+        textStackView.axis = .vertical
+        textStackView.spacing = 4
+
+        let rowStackView = UIStackView(arrangedSubviews: [iconImageView, textStackView])
+        rowStackView.axis = .horizontal
+        rowStackView.alignment = .top
+        rowStackView.spacing = 10
+        rowStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        rowStackView.isLayoutMarginsRelativeArrangement = true
+
+        addAutoLayoutSubview(rowStackView)
+        NSLayoutConstraint.activate([
+            iconImageView.widthAnchor.constraint(equalToConstant: 22),
+            iconImageView.heightAnchor.constraint(equalToConstant: 22),
+            rowStackView.topAnchor.constraint(equalTo: topAnchor),
+            rowStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rowStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rowStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+
+        isAccessibilityElement = true
+        accessibilityLabel = item.accessibilityLabel
     }
 
     required init?(coder: NSCoder) { fatalError() }

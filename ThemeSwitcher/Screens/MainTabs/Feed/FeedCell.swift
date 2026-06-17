@@ -27,6 +27,7 @@ class FeedCell: UITableViewCell, Reusable {
         label.textColor = UIColor.Pallete.primaryText
         label.font = .preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -36,7 +37,19 @@ class FeedCell: UITableViewCell, Reusable {
         label.textColor = UIColor.Pallete.secondaryText
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
+    }()
+
+    private lazy var headerStackView: UIStackView = {
+        nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        let stackView = UIStackView(arrangedSubviews: [nameLabel, timeLabel])
+        stackView.axis = .horizontal
+        stackView.alignment = .firstBaseline
+        stackView.spacing = 4
+        return stackView
     }()
     
     private let descriptionLabel: UILabel = {
@@ -62,7 +75,7 @@ class FeedCell: UITableViewCell, Reusable {
         let separator = UIView()
         separator.backgroundColor = UIColor.Pallete.separator
         
-        [avatarImageView, nameLabel, timeLabel, descriptionLabel, separator].forEach {
+        [avatarImageView, headerStackView, descriptionLabel, separator].forEach {
             contentView.addAutoLayoutSubview($0)
         }
         
@@ -74,19 +87,14 @@ class FeedCell: UITableViewCell, Reusable {
         ])
         
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 72),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+            headerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 72),
+            headerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            headerStackView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -12)
         ])
         
         NSLayoutConstraint.activate([
-            timeLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 4),
-            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            timeLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -12)
-        ])
-        
-        NSLayoutConstraint.activate([
-            descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.leadingAnchor.constraint(equalTo: headerStackView.leadingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
@@ -98,6 +106,22 @@ class FeedCell: UITableViewCell, Reusable {
             separator.heightAnchor.constraint(equalToConstant: 0.5)
         ])
         
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+        nameLabel.text = nil
+        timeLabel.text = nil
+        descriptionLabel.text = nil
+        accessibilityLabel = nil
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        avatarImageView.layer.borderColor = UIColor.Pallete.separator.cgColor
     }
 
     func set(data feed: Feed) {

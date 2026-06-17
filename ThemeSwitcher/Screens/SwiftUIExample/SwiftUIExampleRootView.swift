@@ -169,6 +169,7 @@ private struct SwiftUIThemeDemoView: View {
                     ]
                 )
 
+                auditChecklistSection
                 adaptiveImageSection
                 controlsSection
             }
@@ -187,6 +188,44 @@ private struct SwiftUIThemeDemoView: View {
                 ForEach(colors, id: \.title) { sample in
                     ColorSampleTile(sample: sample)
                 }
+            }
+        }
+    }
+
+    private var auditChecklistSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Theme audit checklist")
+                .font(.headline)
+                .foregroundColor(Color(UIColor.Pallete.primaryText))
+
+            Text("Reusable checks to run when adding this theme switcher to another screen.")
+                .font(.footnote)
+                .foregroundColor(Color(UIColor.Pallete.secondaryText))
+
+            ForEach(ThemeAuditItem.defaultItems, id: \.self) { item in
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(Color(UIColor.Pallete.primaryText))
+                        .imageScale(.medium)
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(item.title)
+                            .font(.subheadline)
+                            .foregroundColor(Color(UIColor.Pallete.primaryText))
+
+                        Text(item.detail)
+                            .font(.footnote)
+                            .foregroundColor(Color(UIColor.Pallete.secondaryText))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(UIColor.Pallete.secondaryBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(item.accessibilityLabel)
             }
         }
     }

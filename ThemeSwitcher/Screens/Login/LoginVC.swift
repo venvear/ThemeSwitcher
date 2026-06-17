@@ -113,11 +113,9 @@ class LoginVC: UIViewController {
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
         
-        loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64).isActive = true
-        
-        passTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64).isActive = true
-
         NSLayoutConstraint.activate([
+            loginTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64),
+            passTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64),
             loginButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -64),
             loginButton.heightAnchor.constraint(equalToConstant: 44)
         ])
